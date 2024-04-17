@@ -1,5 +1,8 @@
 import React, { useReducer } from 'react'
 
+import { useDispatch } from 'react-redux'
+import { createNewTodo } from '../state/todosSlice'
+
 const CHANGE_LABEL = 'CHANGE_LABEL'
 const CHANGE_IS_COMPLETED = 'CHANGE_IS_COMPLETED'
 
@@ -22,6 +25,7 @@ const reducer = (state, action) => {
 }
 
 export default function TodoForm() {
+  const dispatchRedux = useDispatch()  //dispatch was already used
   const [state, dispatch] = useReducer(reducer, initialState)
   const onLabelChange = ({ target: { value } }) => {
     dispatch({ type: CHANGE_LABEL, payload: value })
@@ -35,7 +39,7 @@ export default function TodoForm() {
   }
   const onNewTodo = evt => {
     evt.preventDefault()
-    // TODO: create todo!
+    dispatchRedux(createNewTodo(state.todoLabel, state.todoIsCompleted))
     resetForm()
   }
 
